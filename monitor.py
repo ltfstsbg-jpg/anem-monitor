@@ -8,9 +8,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
 CARD_NUMBER = "400298014600"
-NIN_OR_ID   = "109980090014600005"
-BOT_TOKEN   = "8673770315:AAHEeYs2xBq95rXnReIrz-_z6W9H49GRxYo"
-CHAT_ID     = "5492379451"
+NIN_OR_ID = "109980090014600005"
+BOT_TOKEN = "8673770315:AAHEeYs2xBq95rXnReIrz-_z6W9H49GRxYo"
+CHAT_ID = "5492379451"
 CHECK_INTERVAL = 1800
 
 def send_telegram(message):
@@ -20,8 +20,8 @@ def send_telegram(message):
             data={"chat_id": CHAT_ID, "text": message},
             timeout=10
         )
-    except:
-        pass
+    except Exception as e:
+        print("telegram error:", e)
 
 def check_appointment():
     options = Options()
@@ -32,8 +32,11 @@ def check_appointment():
     options.add_argument("--window-size=1280,800")
     options.binary_location = "/data/data/com.termux/files/usr/bin/chromium-browser"
 
-service = Service("/data/data/com.termux/files/usr/bin/chromedriver", service_args=["--timeout=120"])
-driver = webdriver.Chrome(service=service, options=options)
+    service = Service(
+        "/data/data/com.termux/files/usr/bin/chromedriver",
+        service_args=["--timeout=120"]
+    )
+    driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 40)
 
     try:
@@ -60,13 +63,13 @@ driver = webdriver.Chrome(service=service, options=options)
             cont.click()
             print("clicked continuer")
             time.sleep(4)
-        except:
+        except Exception:
             print("no continuer button")
 
         page = driver.page_source.lower()
         print("page snippet:", page[1000:1200])
 
-        if "aucun rendez-vous" in page or "noacun" in page or "pas de rendez" in page:
+        if "aucun rendez-vous" in page or "pas de rendez" in page:
             print("no appointment")
             return False
 
@@ -80,7 +83,7 @@ driver = webdriver.Chrome(service=service, options=options)
         driver.quit()
 
 print("started monitoring...")
-send_telegram("started monitoring - will notify when appointment is available")
+send_telegram("started monitoring")
 
 while True:
     try:
