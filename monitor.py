@@ -34,7 +34,7 @@ def check_appointment():
 
     service = Service(
         "/data/data/com.termux/files/usr/bin/chromedriver",
-        service_args=["--timeout=120"]
+        service_args=["--timeout=300"]
     )
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 40)
