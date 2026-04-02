@@ -32,9 +32,9 @@ def check_appointment():
     options.add_argument("--window-size=1280,800")
     options.binary_location = "/data/data/com.termux/files/usr/bin/chromium-browser"
 
-    service = Service("/data/data/com.termux/files/usr/bin/chromedriver")
-    driver = webdriver.Chrome(service=service, options=options)
-    wait = WebDriverWait(driver, 20)
+service = Service("/data/data/com.termux/files/usr/bin/chromedriver", service_args=["--timeout=120"])
+driver = webdriver.Chrome(service=service, options=options)
+    wait = WebDriverWait(driver, 40)
 
     try:
         print("opening site...")
