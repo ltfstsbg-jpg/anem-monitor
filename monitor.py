@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 
 # ========== الإعدادات ==========
 CARD_NUMBER  = "رقم_بطاقة_طالب_العمل"
